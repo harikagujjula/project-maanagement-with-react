@@ -14,7 +14,7 @@
   * Project details section with:
     * Project Title (selected)
     * Delete button to delete the project
-    * Date created, Description and other props
+    * Due Date, Description and other props
   * Tasks Section
     * Input to add task and a button to save
     * List of Tasks created with clear button for each
