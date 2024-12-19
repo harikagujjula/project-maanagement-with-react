@@ -2,6 +2,7 @@ import { useState } from "react";
 import NoProjectSelected from "./components/NoProjectSelected";
 import Project from "./components/Project";
 import Sidebar from "./components/Sidebar";
+import SelectedProject from "./components/SelectedProject";
 
 function App() {
   // Using state to determine if we should show NoProjectSelected component or Project component to add new one with:
@@ -54,19 +55,35 @@ function App() {
     });
   }
 
-  let content;
+  // Function to call on click of a Project on sidebar to show Project details.
+  function handleSelectProject(id) {
+    setProjectState(prevState => {
+      return {
+        // preserving prevState object properties and overriding selectedProjectId.
+        ...prevState,
+        // Updating the selectedProjectId to id of the project selected.
+        selectedProjectId: id,
+      };
+    });
+  }
+
+  // Deriving the project data to pass to SelectProject from the id present in state.
+  const selectedProject = projectState.projects.find(project => project.id === projectState.selectedProjectId);
+  // Setting the default to SelectedProject component.
+  let content = <SelectedProject project={selectedProject}/>;
   if (projectState.selectedProjectId === null) {
     content = <Project onSaveProject={handleAddProject} onCancelAdd={handleCancelAddProject}/>
   }
   else if(projectState.selectedProjectId === undefined) {
     content = <NoProjectSelected onStartAddProject={handleStartAddProject} />;
   }
+  
 
   return (
     <main className="h-screen my-8 flex gap-8">
       {/* Adding handleStartAddProject to both buttons in Sidebar and NoProjectSelected. */}
       {/* Passing the projects object to the sidebar to show all those added. */}
-      <Sidebar onStartAddProject={handleStartAddProject} projects={projectState.projects}/>
+      <Sidebar onStartAddProject={handleStartAddProject} projects={projectState.projects} onSelectProject={handleSelectProject}/>
       {/* Show the Project component only when clicked on Add Project, if not show NoProjectSelected. */}
       { content }
     </main>
