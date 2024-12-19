@@ -67,10 +67,26 @@ function App() {
     });
   }
 
+  // Function to Delete a project that shows on SelectedProject.
+  function handleDeleteProject() {
+    setProjectState(prevState => {
+      return {
+        // preserving prevState object properties and overriding selectedProjectId.
+        ...prevState,
+        // Updating the selectedProjectId to to undefined so that the project we
+        // are about to delete is no longer selected.
+        selectedProjectId: undefined,
+        // Update projects array using filter, by removing the project id that is previously selected.
+        // if false is returned, item will be dropped and true will keep the item in the array.
+        projects: prevState.projects.filter((project) => project.id !== prevState.selectedProjectId)
+      };
+    });
+  }
+
   // Deriving the project data to pass to SelectProject from the id present in state.
   const selectedProject = projectState.projects.find(project => project.id === projectState.selectedProjectId);
   // Setting the default to SelectedProject component.
-  let content = <SelectedProject project={selectedProject}/>;
+  let content = <SelectedProject project={selectedProject} onDelete={handleDeleteProject}/>;
   if (projectState.selectedProjectId === null) {
     content = <Project onSaveProject={handleAddProject} onCancelAdd={handleCancelAddProject}/>
   }
