@@ -42,9 +42,21 @@ function App() {
     });
   }
 
+  // Fucntion to call on click of Cancel on Add project screen.
+  function handleCancelAddProject() {
+    setProjectState(prevState => {
+      return {
+        // preserving prevState object properties and overriding selectedProjectId.
+        ...prevState,
+        // Updating the selectedProjectId to undefined so that NoProjectsSelected will be shown.
+        selectedProjectId: undefined,
+      };
+    });
+  }
+
   let content;
   if (projectState.selectedProjectId === null) {
-    content = <Project onSaveProject={handleAddProject} />
+    content = <Project onSaveProject={handleAddProject} onCancelAdd={handleCancelAddProject}/>
   }
   else if(projectState.selectedProjectId === undefined) {
     content = <NoProjectSelected onStartAddProject={handleStartAddProject} />;
