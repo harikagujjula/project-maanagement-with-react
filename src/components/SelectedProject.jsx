@@ -1,4 +1,6 @@
-export default function SelectedProject({ project, onDelete }) {
+import Tasks from "./Tasks";
+
+export default function SelectedProject({ project, onDelete, onAddTask, onDeleteTask, tasks }) {
 
   const formattedDate = new Date(project.dueDate).toLocaleDateString('en-US', {
     year: 'numeric',
@@ -15,6 +17,6 @@ export default function SelectedProject({ project, onDelete }) {
       {/* whitespace-pre-wrap class in to allow the line breaks given in description. */}
       <p className="text-stone-600 whitespace-pre-wrap">{project.description}</p>
     </header>
-    TASKS
+    <Tasks onAdd={onAddTask} onDelete={onDeleteTask} tasks={tasks}/>
   </div>
 }
